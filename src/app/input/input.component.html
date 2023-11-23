@@ -1,0 +1,45 @@
+<div class="field">
+    <label class="label">{{ label }}</label>
+    <div class="control">
+        <!-- we are using the formControlName property without brackets meaning that we are referring to the name property of the form control and it's not interpreted as code-->
+        <input class="input is-danger" [formControl]="control" [ngClass]="{ 'is-danger': showErrors() }">
+        <!-- this is an example how to use input masking with ngx-mask package / library -->
+        <!-- https://www.npmjs.com/package/ngx-mask -->
+        <!-- <input mask="(000)-000-0000" class="input is-danger" [formControl]="control" [ngClass]="{ 'is-danger': showErrors() }"> -->
+    </div>
+    <!-- Add this for error handling -->
+    <!-- display the error for the name field if it is not valid -->
+    <!-- ng-container might not be necessary on newer Angular versions -->
+    <!-- ['required']" with square brackets means accessing the required property of the errors object -->
+    <!-- In the code snippet, ['required'] is using square brackets to access the required property of the errors object.
+    In Angular, form controls can have validation errors associated with them. The errors object contains these validation errors as key-value pairs, where the key represents the error type and the value provides additional information about the error.
+    By using ['required'], the code snippet is checking if the required error type exists in the errors object of the name control. If the required error exists, it means that the name control is required and has failed the validation. -->
+    <!-- In the code snippet, name? is a safe navigation operator in Angular. It is used to prevent errors when accessing properties of an object that may be null or undefined.
+    In this case, it is used to check if the name property exists on the cardForm.controls object before attempting to access its errors property. If the name property is null or undefined, the safe navigation operator will prevent an error from occurring. -->
+    <!-- in order to not duplicate this error handling logic for every field, we will create reusable component for error handling and just use it here - wrap up the functionality -->
+    <!-- touched property used to hide the validator message if the field is not touched -->
+    <!-- dirty property used to hide the validator message if the field is not changed by user and clicked out -->
+    <!-- errors property used to check if the field has errors in order to validate it -->
+    <ng-container *ngIf="showErrors()">
+        <div class="help is-danger" *ngIf="control.errors?.['required']">
+            Value is required.
+        </div>
+        <div class="help is-danger" *ngIf="control.errors?.['minlength']">
+            Value you entered is
+            {{ control.errors?.['minlength'].actualLength }}
+            characters long, but it must be at least
+            {{ control.errors?.['minlength'].requiredLength }}
+            characters.
+        </div>
+        <div class="help is-danger" *ngIf="control.errors?.['maxlength']">
+            Value you entered is
+            {{ control.errors?.['maxlength'].actualLength }}
+            characters long, but it cannot be longer than
+            {{ control.errors?.['maxlength'].requiredLength }}
+            characters.
+        </div>
+        <div class="help is-danger" *ngIf="control.errors?.['pattern']">
+            Invalid format.
+        </div>
+    </ng-container>
+</div>

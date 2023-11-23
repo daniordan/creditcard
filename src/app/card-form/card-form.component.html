@@ -1,0 +1,36 @@
+<div class="columns">
+    <div class="column">
+        <app-card [name]="$any(cardForm).get('name').value" [cardNumber]="$any(cardForm).get('cardNumber').value"
+            [expiration]="$any(cardForm).get('expiration').value"></app-card>
+    </div>
+    <div class="column">
+        <!-- bind the FormGroup with the Form by adding Form Group property which is going to come from the card form instance created back in the component class -->
+        <!-- using FormGroup - Angular automatically added some event handlers for us -->
+        <!-- use (ngSubmit) event listener to bind to the submit event (event binding) - handle the form submission -->
+        <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+            <!-- bind to the overall form using the control property and cardForm.get('name') as value (or controls.name)-->
+            <!-- https://stackoverflow.com/questions/67834802/template-error-type-abstractcontrol-is-not-assignable-to-type-formcontrol -->
+            <app-input label="Name" [control]="$any(cardForm).get('name')"></app-input>
+            <app-input label="Card Number" [control]="$any(cardForm).get('cardNumber')"></app-input>
+            <div class="columns">
+                <div class="column">
+                    <app-input label="Expiration (MM/YY)" [control]="$any(cardForm).get('expiration')"></app-input>
+                </div>
+                <div class="column">
+                    <app-input label="Security Code" [control]="$any(cardForm).get('securityCode')"></app-input>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="button is-primary" [disabled]="cardForm.invalid" type="submit">Submit</button>
+                <button class="button is-warning" type="button" (click)="onResetClick()">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- <hr /> -->
+<!-- For Debugging purposes only. not for deploying the app to production -->
+<!-- <div>Form Contents: {{ cardForm.value | json }}</div>
+<div>Form is valid: {{ cardForm.valid }}</div> -->
+<!-- instead of controls.name we can use get('name') as we are using the formControlName property to get the errors for this field-->
+<!-- <div>Errors around name: {{ cardForm.controls.name.errors | json }}</div> -->
