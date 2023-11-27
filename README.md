@@ -1,5 +1,7 @@
 # Creditcard Angular App
 
+Simple one-page design that features input widgets with card and card holder details with validation. The card is rendered on screen with real-time details changing based on user input.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
 
 ## Prerequisites
